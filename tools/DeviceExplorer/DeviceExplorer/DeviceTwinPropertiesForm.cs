@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Azure.Devices;
+using Newtonsoft.Json;
 
 namespace DeviceExplorer
 {
@@ -126,6 +128,26 @@ namespace DeviceExplorer
             await deviceMethod.UpdateTwinData(jsonEditRichTextBox.Text);
 
             refreshBtn_Click(this, null);
+        }
+
+        private async void configurationBtn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                RegistryManager registryManager = RegistryManager.CreateFromConnectionString(_iotHubConnectionString);
+                ConfigurationForm configurationForm = new ConfigurationForm(registryManager);
+                configurationForm.ShowDialog(this);
+                configurationForm.Dispose();
+
+                await registryManager.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                using (new CenterDialog(this))
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

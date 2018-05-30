@@ -47,6 +47,7 @@
             this.jsonEditRichTextBox = new System.Windows.Forms.RichTextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.configurationBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.SuspendLayout();
             this.propertyTabs.SuspendLayout();
@@ -160,7 +161,7 @@
             this.tabDesiredProperties.Location = new System.Drawing.Point(4, 22);
             this.tabDesiredProperties.Name = "tabDesiredProperties";
             this.tabDesiredProperties.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDesiredProperties.Size = new System.Drawing.Size(586, 595);
+            this.tabDesiredProperties.Size = new System.Drawing.Size(586, 572);
             this.tabDesiredProperties.TabIndex = 3;
             this.tabDesiredProperties.Text = "Desired Properties";
             this.tabDesiredProperties.UseVisualStyleBackColor = true;
@@ -172,7 +173,7 @@
             this.jsonRichTextBox3.Location = new System.Drawing.Point(3, 3);
             this.jsonRichTextBox3.Name = "jsonRichTextBox3";
             this.jsonRichTextBox3.ReadOnly = true;
-            this.jsonRichTextBox3.Size = new System.Drawing.Size(580, 589);
+            this.jsonRichTextBox3.Size = new System.Drawing.Size(580, 566);
             this.jsonRichTextBox3.TabIndex = 0;
             this.jsonRichTextBox3.Text = "";
             // 
@@ -214,16 +215,17 @@
             // 
             this.mainTableLayoutPanel.ColumnCount = 1;
             this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.mainTableLayoutPanel.Controls.Add(this.toolbarPanel, 0, 0);
             this.mainTableLayoutPanel.Controls.Add(this.propertyTabs, 0, 1);
+            this.mainTableLayoutPanel.Controls.Add(this.configurationBtn, 0, 2);
             this.mainTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.mainTableLayoutPanel.Name = "mainTableLayoutPanel";
-            this.mainTableLayoutPanel.RowCount = 2;
+            this.mainTableLayoutPanel.RowCount = 3;
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainTableLayoutPanel.Size = new System.Drawing.Size(600, 661);
+            this.mainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.mainTableLayoutPanel.Size = new System.Drawing.Size(600, 679);
             this.mainTableLayoutPanel.TabIndex = 2;
             // 
             // splitContainer2
@@ -240,7 +242,7 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.jsonEditRichTextBox);
-            this.splitContainer2.Size = new System.Drawing.Size(276, 661);
+            this.splitContainer2.Size = new System.Drawing.Size(276, 679);
             this.splitContainer2.SplitterDistance = 27;
             this.splitContainer2.TabIndex = 4;
             this.splitContainer2.TabStop = false;
@@ -289,17 +291,28 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer3.Size = new System.Drawing.Size(884, 661);
+            this.splitContainer3.Size = new System.Drawing.Size(884, 679);
             this.splitContainer3.SplitterDistance = 600;
             this.splitContainer3.SplitterWidth = 8;
             this.splitContainer3.TabIndex = 3;
             this.splitContainer3.TabStop = false;
             // 
+            // configurationBtn
+            // 
+            this.configurationBtn.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configurationBtn.Location = new System.Drawing.Point(3, 648);
+            this.configurationBtn.Name = "configurationBtn";
+            this.configurationBtn.Size = new System.Drawing.Size(594, 28);
+            this.configurationBtn.TabIndex = 2;
+            this.configurationBtn.Text = "Manage Device Configurations...";
+            this.configurationBtn.UseVisualStyleBackColor = true;
+            this.configurationBtn.Click += new System.EventHandler(this.configurationBtn_Click);
+            // 
             // DeviceTwinPropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(884, 661);
+            this.ClientSize = new System.Drawing.Size(884, 679);
             this.Controls.Add(this.splitContainer3);
             this.Name = "DeviceTwinPropertiesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -346,5 +359,6 @@
         private System.Windows.Forms.RichTextBox jsonRichTextBox2;
         private System.Windows.Forms.RichTextBox jsonRichTextBox3;
         private System.Windows.Forms.SplitContainer splitContainer3;
+        private System.Windows.Forms.Button configurationBtn;
     }
 }

@@ -497,7 +497,7 @@
             this.groupBox2.Controls.Add(this.filterDevicesLabel);
             this.groupBox2.Controls.Add(this.totalLabel);
             this.groupBox2.Controls.Add(this.devicesGridView);
-            this.groupBox2.Location = new System.Drawing.Point(6, 83);
+            this.groupBox2.Location = new System.Drawing.Point(6, 86);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(739, 512);
             this.groupBox2.TabIndex = 8;
