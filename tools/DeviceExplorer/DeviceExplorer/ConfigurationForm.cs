@@ -92,8 +92,8 @@ namespace DeviceExplorer
             configuration.TargetCondition = targetConditionTextBox.Text;
             configuration.Content = new ConfigurationContent();
             configuration.Content.DeviceContent = new Dictionary<string, object>();
-            configuration.Content.DeviceContent["properties.desired2.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
-            //configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
+            //configuration.Content.DeviceContent["properties.desired2.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
+            configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
             //configuration.Content.DeviceContent["properties.2.deviceContent_key"] = deviceContentRichTextBox.Text; //this doesn't work
             configuration = await registryManager.AddConfigurationAsync(configuration);
         }
