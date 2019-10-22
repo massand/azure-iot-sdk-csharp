@@ -93,7 +93,9 @@ namespace DeviceExplorer
             configuration.Content = new ConfigurationContent();
             configuration.Content.DeviceContent = new Dictionary<string, object>();
             //configuration.Content.DeviceContent["properties.desired2.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
-            configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
+            configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = new Dictionary<string, string> { { "runtime", "value" }, { "runtime2", "value2" } }; ; //this works
+            configuration.Content.DeviceContent["properties.desired.deviceContent_int"] = new Dictionary<string, int> { ["runtime"] = 1, 
+                                                                                                                           ["runtime2"] = 2 }; ; //this works
             //configuration.Content.DeviceContent["properties.2.deviceContent_key"] = deviceContentRichTextBox.Text; //this doesn't work
             configuration = await registryManager.AddConfigurationAsync(configuration);
         }
