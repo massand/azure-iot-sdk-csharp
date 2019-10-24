@@ -69,7 +69,7 @@ namespace DeviceExplorer
             Configuration configuration = configurationsMap[configurationComboBox.SelectedItem.ToString()];
             this.currentConfiguration = configuration;
 
-            deviceContentRichTextBox.Text = JsonConvert.SerializeObject(configuration.Content.DeviceContent);
+            deviceContentRichTextBox.Text = JsonConvert.SerializeObject(configuration.Content.ModulesContent);
             targetConditionTextBox.Text = configuration.TargetCondition;
 
             //TODO: Can this be done using LINQ?
@@ -91,11 +91,14 @@ namespace DeviceExplorer
             Configuration configuration = new Configuration(configurationComboBox.Text);
             configuration.TargetCondition = targetConditionTextBox.Text;
             configuration.Content = new ConfigurationContent();
-            configuration.Content.DeviceContent = new Dictionary<string, object>();
-            //configuration.Content.DeviceContent["properties.desired2.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
-            configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = new Dictionary<string, string> { { "runtime", "value" }, { "runtime2", "value2" } }; ; //this works
-            configuration.Content.DeviceContent["properties.desired.deviceContent_int"] = new Dictionary<string, int> { ["runtime"] = 1, 
-                                                                                                                           ["runtime2"] = 2 }; ; //this works
+
+            CreateModulesContent(configuration, configuration.Id);
+
+            //configuration.Content.ModulesContent = new Dictionary<string, IDictionary<string, object>>();
+            ////configuration.Content.DeviceContent["properties.desired2.deviceContent_key"] = deviceContentRichTextBox.Text; //this works
+            //configuration.Content.ModulesContent["properties.desired.deviceContent_key"] = new Dictionary<string, object> { { "runtime", "value" }, { "runtime2", "value2" } }; ; //this works
+            //configuration.Content.ModulesContent["properties.desired.deviceContent_int"] = new Dictionary<string, object> { ["runtime"] = 1, 
+            //                                                                                                               ["runtime2"] = 2 }; ; //this works
             //configuration.Content.DeviceContent["properties.2.deviceContent_key"] = deviceContentRichTextBox.Text; //this doesn't work
             configuration = await registryManager.AddConfigurationAsync(configuration);
         }
@@ -128,6 +131,87 @@ namespace DeviceExplorer
             if(this.currentConfiguration.Labels != null)
             {
                 configurationLabelValueTextBox.Text = this.currentConfiguration.Labels[configurationLabelComboBox.Text];
+            }
+        }
+
+        public void CreateDeviceContent(Configuration configuration, string configurationId)
+        {
+            configuration.Content = new ConfigurationContent();
+            configuration.Content.DeviceContent = new Dictionary<string, object>();
+            configuration.Content.DeviceContent["properties.desired.deviceContent_key"] = "deviceContent_value-" + configurationId;
+        }
+
+        public void CreateModulesContent(Configuration configuration, string configurationId)
+        {
+            configuration.Content.ModulesContent = new Dictionary<string, IDictionary<string, object>>();
+            IDictionary<string, object> modules_value = new Dictionary<string, object>();
+            IDictionary<string, object> samplemodules_value = new Dictionary<string, object>();
+            samplemodules_value["type"] = "docker";
+            modules_value["properties.desired.modules.SampleModule"] = samplemodules_value;
+            configuration.Content.ModulesContent["$edgeAgent"] = modules_value;
+        }
+
+        public void CreateMetricsAndTargetCondition(Configuration configuration, string configurationId)
+        {
+            configuration.Metrics.Queries.Add("waterSettingsPending", "SELECT deviceId FROM devices WHERE properties.reported.chillerWaterSettings.status=\'pending\'");
+            configuration.TargetCondition = "properties.reported.chillerProperties.model=\'4000x\'";
+            configuration.Priority = 20;
+        }
+
+        public void PrintConfiguration(Configuration configuration)
+        {
+            Console.WriteLine("Configuration Id: " + configuration.Id);
+            Console.WriteLine("Configuration SchemaVersion: " + configuration.SchemaVersion);
+
+            Console.WriteLine("Configuration Labels: " + configuration.Labels);
+
+            PrintContent(configuration.ContentType, configuration.Content);
+
+            Console.WriteLine("Configuration TargetCondition: " + configuration.TargetCondition);
+            Console.WriteLine("Configuration CreatedTimeUtc: " + configuration.CreatedTimeUtc);
+            Console.WriteLine("Configuration LastUpdatedTimeUtc: " + configuration.LastUpdatedTimeUtc);
+
+            Console.WriteLine("Configuration Priority: " + configuration.Priority);
+
+            PrintConfigurationMetrics(configuration.SystemMetrics, "SystemMetrics");
+            PrintConfigurationMetrics(configuration.Metrics, "Metrics");
+
+            Console.WriteLine("Configuration ETag: " + configuration.ETag);
+            Console.WriteLine("------------------------------------------------------------");
+        }
+
+        private void PrintContent(string contentType, ConfigurationContent configurationContent)
+        {
+            Console.WriteLine($"Configuration Content [type = {contentType}]");
+
+            Console.WriteLine("ModuleContent:");
+            foreach (string modulesContentKey in configurationContent.ModulesContent.Keys)
+            {
+                foreach (string key in configurationContent.ModulesContent[modulesContentKey].Keys)
+                {
+                    Console.WriteLine($"\t\t{key} = {configurationContent.ModulesContent[modulesContentKey][key]}");
+                }
+            }
+
+            Console.WriteLine("DeviceContent:");
+            foreach (string key in configurationContent.DeviceContent.Keys)
+            {
+                Console.WriteLine($"\t{key} = {configurationContent.DeviceContent[key]}");
+            }
+        }
+
+        private void PrintConfigurationMetrics(ConfigurationMetrics metrics, string title)
+        {
+            Console.WriteLine($"{title} Results: ({metrics.Results.Count})");
+            foreach (string key in metrics.Results.Keys)
+            {
+                Console.WriteLine($"\t{key} = {metrics.Results[key]}");
+            }
+
+            Console.WriteLine($"{title} Queries: ({metrics.Queries.Count})");
+            foreach (string key in metrics.Queries.Keys)
+            {
+                Console.WriteLine($"\t{key} = {metrics.Queries[key]}");
             }
         }
     }
